@@ -1,0 +1,48 @@
+version: "3"
+services:
+    
+  jupyter:
+    build:
+      context: ./docker/ 
+      dockerfile: Dockerfile
+      network: host      
+      args:
+         NB_USER: "${user}"
+    user: root
+    image: local_image/jupyter     
+    working_dir: /home/${user}/work
+    ports:
+      - "${app_ports}" 
+    volumes: 
+    - type: bind
+      source: ${notebook_folder}
+      target: /home/${user}/work
+    privileged: true   
+      
+    environment: 
+      - CHOWN_HOME=yes
+      - CHOWN_HOME_OPTS=-R    
+      - restartable=yes 
+      - TZ=${timezone} 
+      - DOCKER_STACKS_JUPYTER_CMD=notebook
+      - NB_USER=${user}
+    #stdin_open: true
+    #tty: true
+    command: "start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''" 
+  selenium:
+    image: selenium/standalone-chrome
+    shm_size: '2gb'
+    volumes: 
+    - type: bind
+      source: ${chrome_folder}
+      target: /home/${user}/chrome_profile    
+    ports:
+      - 4444:4444 # Selenium service
+      - 5900:5900 # VNC server
+      - 7900:7900 # VNC browser client
+    environment: 
+          - START_XVFB=false
+          - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+          - SE_NODE_MAX_SESSIONS=5
+
+
