@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>project</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link type="text/css" rel="stylesheet" href="static/css/index.css" />
+  </head>
+  <body>
+    <h2>Project .....</h2>
+    <div id="main-column">
+      <div class="flash-message error" id="flash-message">
+        <span class="alertClose" onclick="alert_close()">X</span>
+        <span class="alertText" id="flash-message-text"></span>
+      </div>
+
+      <label for="name">Name (4 to 8 characters):</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        required
+        minlength="4"
+        maxlength="8"
+        size="10" />
+      <label for="tentacles">Tentacles number (10-100):</label>
+      <input type="number" id="tentacles" name="tentacles" min="10" max="100" />
+      <input
+        id="image-file"
+        type="file"
+        accept=".xlsm,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+      <button class="button" onclick="FileUpload()">Submit</button>
+    </div>
+  </body>
+  <script src="static/js/index.js"></script>
+</html>

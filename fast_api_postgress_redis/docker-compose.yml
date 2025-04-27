@@ -1,0 +1,50 @@
+version: "3.9"
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres:17.4-alpine3.21
+
+    environment:
+      POSTGRES_DB: ${db_name}
+      POSTGRES_USER: ${db_user}
+      POSTGRES_PASSWORD: ${db_pswd}
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ./postgresql.conf:/etc/postgresql.conf
+      - type: bind
+        source: ${db_data}
+        target: /var/lib/postgresql/data/pgdata
+    command: 'postgres -c config_file="/etc/postgresql.conf"'  
+    ports:
+      - "${db_ports}"  
+    networks:
+      - postgres
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:9.2
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${pgadmin_email} 
+      PGADMIN_DEFAULT_PASSWORD: ${pgadmin_pswd} 
+      PGADMIN_CONFIG_SERVER_MODE: ${pgadmin_server_mode} 
+    volumes:
+      - ./postgresql.conf:/etc/postgresql.conf
+      - type: bind
+        source: ${pgadmin_data}
+        target: /var/lib/pgadmin
+
+    ports:
+      - "${pgadmin_ports}"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - postgres
+
+
+networks:
+  postgres:
+    driver: bridge
