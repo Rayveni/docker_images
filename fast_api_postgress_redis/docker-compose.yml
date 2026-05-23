@@ -45,6 +45,7 @@ services:
       - postgres
 
   fast_api:
+    container_name: backend
     build:
       context: ./
       dockerfile: ./app/Dockerfile      
@@ -62,8 +63,9 @@ services:
       - "${app_ports}"
 
   redis:
+    container_name: redis_container  
     hostname: redis    
-    image: redis:8.0-rc1-alpine3.21⁠
+    image: redis:8.0-rc1-alpine3.21
     ports:
       - ${redis_port} 
 
@@ -82,6 +84,34 @@ volumes:
       type: none
       device: ${logs_dir} 
 
+  jupyter:
+    build:
+      context: ./docker/ 
+      dockerfile: Dockerfile
+      network: host      
+      args:
+         NB_USER: "${user}"
+    user: root
+    image: local_image/jupyter     
+    working_dir: /home/${user}/work
+    ports:
+      - "${juputer_ports}" 
+    volumes: 
+    - type: bind
+      source: ${notebook_folder}
+      target: /home/${user}/work
+    privileged: true   
+      
+    environment: 
+      - CHOWN_HOME=yes
+      - CHOWN_HOME_OPTS=-R    
+      - restartable=yes 
+      - TZ=${timezone} 
+      - DOCKER_STACKS_JUPYTER_CMD=notebook
+      - NB_USER=${user}
+    #stdin_open: true
+    #tty: true
+    command: "start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''" 
 networks:
   postgres:
     driver: bridge

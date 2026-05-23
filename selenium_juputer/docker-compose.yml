@@ -1,4 +1,3 @@
-version: "3"
 services:
     
   jupyter:
@@ -10,7 +9,7 @@ services:
       args:
          NB_USER: "${user}"
     user: root
-    image: local_image/jupyter     
+    image: local_image/jupyter_selenium    
     working_dir: /home/${user}/work
     ports:
       - "${app_ports}" 
