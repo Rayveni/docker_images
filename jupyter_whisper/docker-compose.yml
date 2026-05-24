@@ -18,7 +18,8 @@ services:
         source: ${notebook_folder}
         target: /home/${user}/work
     privileged: true
-
+    networks:
+      - ai-backend
     environment:
       - CHOWN_HOME=yes
       - CHOWN_HOME_OPTS=-R
@@ -39,3 +40,7 @@ volumes:
       o: bind
       type: none
       device: ${model_cashe}
+
+networks:
+  ai-backend:
+    external: true
