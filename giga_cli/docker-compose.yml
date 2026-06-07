@@ -1,0 +1,37 @@
+
+services:
+  gigaam:
+    build:
+      context: ./docker/
+      dockerfile: Dockerfile
+      network: host
+    user: root
+    image: local_image/gigaam_custom
+    volumes:
+      - gigaam_model_cache:/home/cache
+      - gigaam_model_cache:/root/.cache/gigaam
+      - data:/app/in
+
+    environment:
+      - hugging_token=${hugging_token}
+      - HF_TOKEN=${hugging_token}
+      - model_save_path=/home/cache/model/hf_model
+      - TORCH_HOME=/home/cache/torch
+      - CACHE_HOME=/home/cache
+      - HF_HOME=/home/cache/huggingface
+      - PYANNOTE_CACHE=/home/cache/pyannote
+      - PYTHONWARNINGS=ignore
+      - EVENT_LEVEL=ERROR
+      - GIGAAM_CACHE=/home/cache/gigaam
+
+    env_file:
+      - .env 
+
+volumes:
+  gigaam_model_cache:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${model_cashe}
+  data:

@@ -1,0 +1,7 @@
+whisperx
+jupyter_contrib_core
+jupyter_highlight_selected_word
+jupyter-contrib-nbextensions
+jupyter_nbextensions_configurator
+ipywidgets
+widgetsnbextension

@@ -1,0 +1,26 @@
+services:
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    environment:
+      - OLLAMA_HOST=${OLLAMA_HOST}    
+    ports:
+      - "${ollama_port}"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: always
+    networks:
+      - ai-backend
+
+
+volumes:
+  ollama_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${ollama_data}
+networks:
+  ai-backend:
+     name: ai-backend
+     driver: bridge  

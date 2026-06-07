@@ -1,0 +1,3 @@
+whisperx
+click
+pip-tools
