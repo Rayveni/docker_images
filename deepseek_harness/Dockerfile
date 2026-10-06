@@ -9,6 +9,7 @@ COPY pnpm-workspace.yaml /root/.dsh/profiles/web/pnpm-workspace.yaml
 
 # 3. Копируем и запускаем скрипт установки всех плагинов
 COPY plugins/ /tmp/plugins/
+
 RUN chmod +x /tmp/plugins/install_plugins.sh && \
-    sh /tmp/plugins/install_plugins.sh && \
+    bash /tmp/plugins/install_plugins.sh && \
     rm -rf /tmp/plugins
