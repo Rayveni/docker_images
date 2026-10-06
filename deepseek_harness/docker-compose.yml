@@ -15,9 +15,4 @@ services:
       - ${HOST_PROJECT_PATH}:/workspace
     environment:
       DSH_PROFILE: web
-      PNPM_CONFIG_ONLY_BUILT_DEPENDENCIES: "false"
       CI: "true"
-      PNPM_CONFIG_STRICT_DEP_BUILDS: "false"   # ← ключевая строка
-
-    command: >
-      sh -c "cd /tmp/plugins && sh ./install_plugins.sh || true; exec dsh web --no-open"
