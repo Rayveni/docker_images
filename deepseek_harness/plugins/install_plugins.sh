@@ -19,6 +19,12 @@ fi
 
 FAILED=""
 
+# Inside your install_plugins.sh script, alter your installation commands to:
+pnpm install --allow-build=@google/genai --allow-build=protobufjs
+
+
+
+
 for script in $SCRIPTS; do
   name="$(basename "$script")"
   echo ""

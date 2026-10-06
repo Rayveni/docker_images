@@ -3,17 +3,21 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: my-dsh-with-plugins:latest
+    image: deepseek-harness-plugins
     container_name: dsh-harness
     restart: unless-stopped
     env_file:
-      - .env  # Явно указываем файл с переменными
+      - .env
     ports:
-      - "3080:3080"  # 左边是主机端口，右边是容器内代理端口
+      - "3080:3080"
     volumes:
-      - ${HOST_SETTINGS_PATH}:/root/.dsh # 将当前目录下的data文件夹挂载到容器
+      - ${HOST_SETTINGS_PATH}:/root/.dsh
       - ${HOST_PROJECT_PATH}:/workspace
-    # environment:
-    #   - DSH_PROXY_AUTH_USER=admin # 可选：设置代理认证用户名
-    #   - DSH_PROXY_AUTH_PASS=your_password # 可选：设置代理认证密码
-    # shm_size: '1gb' # 如果遇到内存相关问题，可以取消注释
+    environment:
+      DSH_PROFILE: web
+      PNPM_CONFIG_ONLY_BUILT_DEPENDENCIES: "false"
+      CI: "true"
+      PNPM_CONFIG_STRICT_DEP_BUILDS: "false"   # ← ключевая строка
+
+    command: >
+      sh -c "cd /tmp/plugins && sh ./install_plugins.sh || true; exec dsh web --no-open"
