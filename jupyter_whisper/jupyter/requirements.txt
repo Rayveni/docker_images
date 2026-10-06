@@ -5,3 +5,4 @@ jupyter-contrib-nbextensions
 jupyter_nbextensions_configurator
 ipywidgets
 widgetsnbextension
+agentrouter-sdk

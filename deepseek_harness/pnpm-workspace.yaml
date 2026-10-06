@@ -1,0 +1,6 @@
+# pnpm-workspace.yaml
+allowBuilds:
+  '@google/genai': true
+  'protobufjs': true
+  # Сюда можно добавить другие пакеты, если pnpm снова выдаст ошибку.
+  # Например: 'esbuild': true

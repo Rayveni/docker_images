@@ -1,0 +1,19 @@
+services:
+  deepseek-harness:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: my-dsh-with-plugins:latest
+    container_name: dsh-harness
+    restart: unless-stopped
+    env_file:
+      - .env  # Явно указываем файл с переменными
+    ports:
+      - "3080:3080"  # 左边是主机端口，右边是容器内代理端口
+    volumes:
+      - ${HOST_SETTINGS_PATH}:/root/.dsh # 将当前目录下的data文件夹挂载到容器
+      - ${HOST_PROJECT_PATH}:/workspace
+    # environment:
+    #   - DSH_PROXY_AUTH_USER=admin # 可选：设置代理认证用户名
+    #   - DSH_PROXY_AUTH_PASS=your_password # 可选：设置代理认证密码
+    # shm_size: '1gb' # 如果遇到内存相关问题，可以取消注释

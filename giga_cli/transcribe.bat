@@ -19,6 +19,6 @@ if not exist "%target%" mkdir "%target%"
 cd /d "%folder_path%"
 
 :: Запуск Docker с правильным экранированием путей
-docker compose -f "%compose_path%" run --rm -v "%cd%":/app/in gigaam --audio_file_path="%audio_file_path%" --diarization=1 --model="%model_name%"
+docker compose -f "%compose_path%" run --rm -v "%cd%":/app/in gigaam --audio_file_path="%audio_file_path%" --diarization=1 --model="%model_name%" --requirements=1
 
 pause
