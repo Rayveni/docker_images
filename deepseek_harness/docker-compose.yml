@@ -9,3 +9,4 @@ services:
     volumes:
       - ${HOST_SETTINGS_PATH}:/root/.dsh
       - ${HOST_PROJECT_PATH}:/workspace
+      - ${SKILLS_PATH}:/root/.dsh/skills
