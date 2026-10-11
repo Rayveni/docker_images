@@ -1,0 +1,12 @@
+services:
+  deepseek-harness:
+    build: { context: ., dockerfile: Dockerfile }
+    image: deepseek-harness-plugins
+    container_name: dsh-harness
+    restart: unless-stopped
+    env_file: [.env]
+    ports: ["3080:3080"]
+    volumes:
+      - ${HOST_SETTINGS_PATH}:/root/.dsh
+      - ${HOST_PROJECT_PATH}:/workspace
+      - ${SKILLS_PATH}:/root/.dsh/skills
